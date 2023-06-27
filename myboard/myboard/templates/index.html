@@ -41,5 +41,42 @@
     </tr>
 </table>
 
+    <a href="?page=1">처음으로</a>
+        <!-- ? : 쿼리 문자열을 시작하는 K=V 형태 -->
+		<!-- get 요청으로 page 번호 전달. range 이상일 경우 그냥 마지막으로 이동 -->
+
+	{% if list.has_previous %}
+		<a href="?page={{ list.previous_page_number }}">이전</a>
+        <!--  이전 페이지 있으면 이동하는 링크   -->
+	{% else %}
+		<a>이전</a>
+        <!-- 없으면 링크 이동 x -->
+	{% endif %}
+
+
+    <!-- 여기가 밑에 12345.. 부분! -->
+	{% for page_num in list.paginator.page_range %}
+    <!-- 총 페이지 수 범위 내에서 하나씩 불러오기  -->
+
+        <!-- i가 현재 페이지라면 볼드 텍스트로 표시, 아닐 경우 링크로 -->
+		{% if page_num == list.number %}
+			<b>{{ page_num }}</b>
+		{% else %}
+			<a href="?page={{ page_num }}">{{ page_num }}</a>
+            <!-- 버튼으로도 만들 수 있음 -->
+		{% endif %}
+
+	{% endfor %}
+
+    <!-- 다음 페이지 있으면 이동 or 없으면 그냥 텍스트로 -->
+	{% if list.has_next %}
+		<a href="?page={{ list.next_page_number }}">다음</a>
+	{% else %}
+		<a>다음</a>
+	{% endif %}
+
+    <!-- 마지막 페이지로 이동 -->
+	<a href="?page={{ list.paginator.num_pages }}">끝으로</a>
+
 </body>
 </html>
