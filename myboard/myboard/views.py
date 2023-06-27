@@ -1,11 +1,22 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import MyBoard
+from django.core.paginator import Paginator
 
 
 def index(request):
-    dto = MyBoard.objects.all()
-    return render(request, 'index.html', {'list': dto})
+    myboard = MyBoard.objects.all().order_by('id')
+    paginator = Paginator(myboard, 5)
+    page_num = request.GET.get('page', '1')
+    page_obj = paginator.get_page(page_num)
+
+    try:
+        print(page_obj.next_page_number())
+        print(page_obj.previous_page_number())
+    except:
+        pass
+
+    return render(request, 'index.html', {'list': page_obj})
 
 
 def insert(request):
