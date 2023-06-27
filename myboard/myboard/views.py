@@ -45,8 +45,8 @@ def detail(request, id):
 
 def update(request, id):
     if request.method == 'GET':
-        dto = MyBoard.objects.get(id=id)
-        return render(request, 'update.html', {'dto': dto})
+        myboard = MyBoard.objects.get(id=id)
+        return render(request, 'update.html', {'dto': myboard})
     elif request.method == 'POST':
         mytitle = request.POST['mytitle']
         mycontent = request.POST['mycontent']
@@ -71,4 +71,4 @@ def delete(request, id):
     if result[0]:
         return redirect('index')
     else:
-        return redirect(f'detail/{id}')
+        return redirect(f'/detail/{id}')
